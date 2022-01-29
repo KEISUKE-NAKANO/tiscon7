@@ -150,4 +150,6 @@ public class UserOrderForm {
     public void setWashingMachineInstallation(boolean washingMachineInstallation) {
         this.washingMachineInstallation = washingMachineInstallation;
     }
+
+
 }
