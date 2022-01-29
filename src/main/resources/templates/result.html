@@ -45,7 +45,7 @@
         </tr>
         </tbody>
         </table>
-      <div class="sub-title">集荷元・お届け先</div>
+      <div class="sub-title">集荷元・お届け先・引越し予定日</div>
       <table class="table table-bordered">
         <col span="1" style="background-color: #FFFFFF;">
         <col span="2" style="background-color: #FFFFFF;">
@@ -73,6 +73,11 @@
           <th>転居先住所（市区町村以下）</th>
           <td><span th:text="*{newAddress}"></span></td>
           <input type="hidden" name="newAddress" id="newAddress" th:value="*{newAddress}"/>
+        </tr>
+        <tr>
+          <th>引越し予定日</th>
+          <td><span th:text="*{scheduleddate}"></span></td>
+          <input type="hidden" name="scheduleddate" id="scheduleddate" th:value="*{scheduleddate}"/>
         </tr>
         </tbody>
       </table>
