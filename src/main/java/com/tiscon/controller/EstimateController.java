@@ -12,6 +12,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.text.ParseException;
+
+
+
 /**
  * 引越し見積もりのコントローラークラス。
  *
@@ -36,9 +40,7 @@ public class EstimateController {
     }
 
     @GetMapping("")
-    String index(Model model) {
-        return "top";
-    }
+    String index(Model model) {return "top";}
 
     /**
      * 入力画面に遷移する。
@@ -63,9 +65,7 @@ public class EstimateController {
      * @return 遷移先
      */
     @PostMapping(value = "submit", params = "backToTop")
-    String backToTop(Model model) {
-        return "top";
-    }
+    String backToTop(Model model) { return "top";}
 
     /**
      * 確認画面に遷移する。
@@ -75,12 +75,15 @@ public class EstimateController {
      * @return 遷移先
      */
     @PostMapping(value = "submit", params = "confirm")
-    String confirm(UserOrderForm userOrderForm, Model model) {
+    String confirm(UserOrderForm userOrderForm, Model model) throws ParseException, ParseException {
+
+
 
         model.addAttribute("prefectures", estimateDAO.getAllPrefectures());
         model.addAttribute("userOrderForm", userOrderForm);
         return "confirm";
     }
+
 
     /**
      * 入力画面に戻る。
@@ -119,7 +122,7 @@ public class EstimateController {
      * @return 遷移先
      */
     @PostMapping(value = "result", params = "calculation")
-    String calculation(@Validated UserOrderForm userOrderForm, BindingResult result, Model model) {
+    String calculation(@Validated UserOrderForm userOrderForm, BindingResult result, Model model) throws ParseException {
         if (result.hasErrors()) {
 
             model.addAttribute("prefectures", estimateDAO.getAllPrefectures());
