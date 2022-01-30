@@ -36,7 +36,6 @@ public class UserOrderForm {
     @NotBlank
     private String newAddress;
 
-    @Numeric
     @NotBlank
     private String scheduleddate;
 

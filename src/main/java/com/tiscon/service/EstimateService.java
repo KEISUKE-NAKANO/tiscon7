@@ -11,8 +11,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
 
 /**
  * 引越し見積もり機能において業務処理を担当するクラス。
@@ -69,13 +73,10 @@ public class EstimateService {
      * @param dto 見積もり依頼情報
      * @return 概算見積もり結果の料金
      */
-    public Integer getPrice(UserOrderDto dto) {
+    public Integer getPrice(UserOrderDto dto) throws ParseException {
         double distance = estimateDAO.getDistance(dto.getOldPrefectureId(), dto.getNewPrefectureId());
         // 小数点以下を切り捨てる
         int distanceInt = (int) Math.floor(distance);
-
-        // 距離当たりの料金を算出する
-        int priceForDistance = distanceInt * PRICE_PER_DISTANCE;
 
         int boxes = getBoxForPackage(dto.getBox(), PackageType.BOX)
                 + getBoxForPackage(dto.getBed(), PackageType.BED)
@@ -92,7 +93,30 @@ public class EstimateService {
             priceForOptionalService = estimateDAO.getPricePerOptionalService(OptionalServiceType.WASHING_MACHINE.getCode());
         }
 
-        return priceForDistance + pricePerTruck + priceForOptionalService;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        sdf.setLenient(false);
+        Date d = sdf.parse(dto.getScheduleddate());
+        SimpleDateFormat msdf = new SimpleDateFormat("MM");
+        String datem = msdf.format(d);
+        System.out.println("month : " + datem);
+
+        double priceDistanceTruck = 0;
+        int priceDistance  = distanceInt * PRICE_PER_DISTANCE;
+
+        priceDistanceTruck = priceDistance + pricePerTruck;
+
+        // 距離当たりの料金を算出する
+        if(datem.equals("03") || datem.equals("04")) {
+            priceDistanceTruck = priceDistanceTruck * 1.5;
+        }else if(datem.equals("09")){
+            priceDistanceTruck = priceDistanceTruck * 1.2;
+        }else{
+        }
+
+        // 小数点以下を切り捨てる
+        int priceDistanceTruckInt = (int) Math.floor(priceDistanceTruck);
+
+        return priceDistanceTruckInt + priceForOptionalService;
     }
 
     /**
