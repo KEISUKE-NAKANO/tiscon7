@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -123,6 +124,15 @@ public class EstimateController {
      */
     @PostMapping(value = "result", params = "calculation")
     String calculation(@Validated UserOrderForm userOrderForm, BindingResult result, Model model) throws ParseException {
+
+        if(userOrderForm.getBox() != null) {
+            if (Integer.parseInt(userOrderForm.getBox()) > 200) {
+                FieldError fieldError = new FieldError(result.getObjectName(), "fieldName", "一度に注文できる容量を超えています。一度に配達できる段ボールは200個までです。入力をやり直してください");
+                // エラーを追加する。
+                result.addError(fieldError);
+            }
+        }
+
         if (result.hasErrors()) {
 
             model.addAttribute("prefectures", estimateDAO.getAllPrefectures());
