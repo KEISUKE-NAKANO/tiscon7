@@ -6,6 +6,14 @@ body {
     margin: 0;
 }
 
+.ratetable{
+    height: 100vh;
+    background-image: url("../img/TIS.jpg");
+    background-position:left 0 top 80%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 .jumbotron {
     height: 40vh;
     background-image: url("../img/top.jpg");

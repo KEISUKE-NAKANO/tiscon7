@@ -30,6 +30,7 @@
       <li th:each="err : ${#fields.errors('all')}" th:text="${err}"></li>
       </strong></font>
     </ul>
+
     <div class="col-sm-12">
       <div class="sub-title">お客様情報</div>
       <table class="table table-bordered">
@@ -42,6 +43,7 @@
             <span th:text="*{customerName}" />
           </td>
           <input type="hidden" name="customerName" id="customerName" th:value="*{customerName}"/>
+
         </tr>
         <tr>
           <th>連絡先TEL</th>
